@@ -25,7 +25,6 @@ class DefaultController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $dataProvider->pagination->route = '';  // https://stackoverflow.com/questions/31703533/yii2-listview-pagination-wrong-url
-        $dataProvider->pagination->pageSize = 1;
 
         $productPriceMaxMin = Product::getProductPriceMinMax();
         $price_min = $productPriceMaxMin['min'];

@@ -89,10 +89,6 @@ class ProductSearch extends Product
         $query->andFilterWhere(['like', 'sku', $this->sku]);
         $query->andFilterWhere(['like', 'name', $this->name]);
 
-        $h=fopen(dirname(__FILE__).'/sql.txt','w');
-        fwrite($h,print_r($query->createCommand()->getRawSql(),true));
-        fclose($h);
-
         return $dataProvider;
     }
 }
