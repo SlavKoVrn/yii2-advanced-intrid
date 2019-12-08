@@ -1,20 +1,5 @@
 <?php
 use yii\widgets\Pjax;
-$js =<<<JS
-    $(function(){
-        $('#search').unbind('submit');
-        $('#search').on('pjax:success', function (e, xhr, settings){
-            $.pjax.reload({'container':'#list','timeout':false,'async':false});
-            window.slider_loading.hide();
-            window.slider_button.show();
-            window.slider_ids.forEach(function(item, i, arr) {
-                item();
-            });
-          }
-        );
-    });
-JS;
-$this->registerJS($js,$this::POS_READY);
 ?>
 <div class="container">
     <div class="row">

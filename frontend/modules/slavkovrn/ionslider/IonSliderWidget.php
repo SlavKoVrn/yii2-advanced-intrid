@@ -7,6 +7,8 @@ use yii\widgets\InputWidget;
 
 class IonSliderWidget extends InputWidget {
 
+    public $skin = 'big';
+    public $grid = true;
     public $id = '';
     public $name = '';
     public $class = '';
@@ -15,6 +17,8 @@ class IonSliderWidget extends InputWidget {
     public $from = 2;
     public $to = 7;
     public $button = '';
+    public $pjax_search = 'search';
+    public $pjax_list = 'list';
 
     protected $path;
 
@@ -58,37 +62,47 @@ class IonSliderWidget extends InputWidget {
         );
 
         $script =<<<JS
-            window.{$this->id}_min = {$this->min};
-            window.{$this->id}_max = {$this->max};
-            window.{$this->id}_from = {$this->from};
-            window.{$this->id}_to = {$this->to};
+            $('#{$this->pjax_search}').unbind('submit');
+            $('#{$this->pjax_search}').on('pjax:success', function (e, xhr, settings){
+                $.pjax.reload({'container':'#{$this->pjax_list}','timeout':false,'async':false});
+                window.ionslider_loading.hide();
+                window.ionslider_button.show();
+                window.ionslider_ids.forEach(function(item, i, arr) {
+                    item();
+                });
+              }
+            );
+            window.ionslider_{$this->id}_min = {$this->min};
+            window.ionslider_{$this->id}_max = {$this->max};
+            window.ionslider_{$this->id}_from = {$this->from};
+            window.ionslider_{$this->id}_to = {$this->to};
             window.ionslider_{$this->id}_start = function(){
                 $("#{$this->id}").ionRangeSlider({
                     'type':'double',
-                    'skin':'big',
-                    grid:true,
-                    'min':window.{$this->id}_min,
-                    'max':window.{$this->id}_max,
-                    'from':window.{$this->id}_from,
-                    'to':window.{$this->id}_to
+                    'skin':'{$this->skin}',
+                    'grid':{$this->grid},
+                    'min':window.ionslider_{$this->id}_min,
+                    'max':window.ionslider_{$this->id}_max,
+                    'from':window.ionslider_{$this->id}_from,
+                    'to':window.ionslider_{$this->id}_to
                 });
-                window.slider_{$this->id} = $('#{$this->id}').data('ionRangeSlider');
-                window.slider_loading = $("#ionslider-loading-{$this->id}");
+                window.ionslider_{$this->id} = $('#{$this->id}').data('ionRangeSlider');
+                window.ionslider_loading = $("#ionslider-loading-{$this->id}");
                 $('#{$this->button}').click(function(e){
-                    window.slider_loading.show();
-                    window.slider_button = $('#{$this->button}');
-                    window.slider_button.hide();
-                    window.{$this->id}_min = window.slider_{$this->id}.result.min;
-                    window.{$this->id}_max = window.slider_{$this->id}.result.max;
-                    window.{$this->id}_from = window.slider_{$this->id}.result.from;
-                    window.{$this->id}_to = window.slider_{$this->id}.result.to;
+                    window.ionslider_loading.show();
+                    window.ionslider_button = $('#{$this->button}');
+                    window.ionslider_button.hide();
+                    window.ionslider_{$this->id}_min = window.ionslider_{$this->id}.result.min;
+                    window.ionslider_{$this->id}_max = window.ionslider_{$this->id}.result.max;
+                    window.ionslider_{$this->id}_from = window.ionslider_{$this->id}.result.from;
+                    window.ionslider_{$this->id}_to = window.ionslider_{$this->id}.result.to;
                 });
             };
             window.ionslider_{$this->id}_start();
-            if (typeof window.slider_ids == 'undefined'){
-                window.slider_ids = [];
+            if (typeof window.ionslider_ids == 'undefined'){
+                window.ionslider_ids = [];
             }
-            window.slider_ids.push(window.ionslider_{$this->id}_start);
+            window.ionslider_ids.push(window.ionslider_{$this->id}_start);
 JS;
         $this->getView()->registerJs($script,\yii\web\View::POS_READY);
     }
