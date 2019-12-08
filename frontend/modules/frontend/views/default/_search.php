@@ -22,6 +22,8 @@ use slavkovrn\ionslider\IonSliderWidget;
         <div class="col-sm-4"><?= $form->field($searchModel, 'length')->textInput() ?></div>
         <div class="col-sm-4"><?= $form->field($searchModel, 'height')->textInput() ?></div>
     </div>
+
+    <?php if (isset($price_min) and isset($price_max)) : ?>
     <?= $form->field($searchModel, 'price')->widget(IonSliderWidget::class,[
         'min' => $price_min,
         'max' => $price_max,
@@ -29,7 +31,9 @@ use slavkovrn\ionslider\IonSliderWidget;
         'to' => $price_max,
         'button' => 'search_button',
     ])->label('Цена') ?>
+    <?php endif; ?>
 
+    <?php if (isset($quantity_min) and isset($quantity_max)) : ?>
     <?= $form->field($searchModel, 'quantity')->widget(IonSliderWidget::class,[
         'min' => $quantity_min,
         'max' => $quantity_max,
@@ -37,6 +41,7 @@ use slavkovrn\ionslider\IonSliderWidget;
         'to' => $quantity_max,
         'button' => 'search_button',
     ])->label('Количество') ?>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Поиск', [
