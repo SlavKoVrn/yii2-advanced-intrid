@@ -1,4 +1,6 @@
 <?php
+Yii::setAlias('slavkovrn', dirname(__FILE__) . '/../modules/slavkovrn');
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

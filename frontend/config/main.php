@@ -1,7 +1,4 @@
 <?php
-Yii::setAlias('slavkovrn', dirname(__FILE__) . '/../modules/slavkovrn');
-Yii::setAlias('kartik', dirname(__FILE__) . '/../modules/kartik');
-
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
