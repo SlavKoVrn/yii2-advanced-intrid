@@ -18,6 +18,7 @@ return [
     'modules' => [
         'backend' => [
             'class' => 'backend\modules\backend\Module',
+            'layout' => 'main',
         ],
     ],
     'components' => [
