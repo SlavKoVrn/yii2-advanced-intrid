@@ -62,7 +62,7 @@ class ProductSearch extends Product
             ]);
         }
 
-        if (isset($this->price) and strpos($this->price,':') !== false){
+        if (isset($this->price) and strpos($this->price,';') !== false){
             $price = explode(';',$this->price);
             $price_min = $price[0];
             $price_max = $price[1];
@@ -70,7 +70,7 @@ class ProductSearch extends Product
             $query->andFilterWhere(['<=', 'price', $price_max]);
         }
 
-        if (isset($this->quantity) and strpos($this->quantity,':') !== false){
+        if (isset($this->quantity) and strpos($this->quantity,';') !== false){
             $quantity = explode(';',$this->quantity);
             $quantity_min = $quantity[0];
             $quantity_max = $quantity[1];
